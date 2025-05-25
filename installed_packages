@@ -1,0 +1,3 @@
+sudo apt install graphviz
+pip install graphviz mistralai
+pip install dotenv

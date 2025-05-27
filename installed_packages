@@ -1,3 +1,8 @@
 sudo apt install graphviz
 pip install graphviz mistralai
 pip install dotenv
+
+//Dockerization: 
+docker build -t ast-graph-generator .
+docker rm my-ast-graph
+docker run --name my-ast-graph ast-graph-generator

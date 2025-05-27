@@ -5,6 +5,8 @@ import json
 import subprocess
 from dotenv import load_dotenv
 from mistralai import Mistral
+from flask import Flask, send_file
+import os
 
 # Use local AST analysis instead of LLM-based graph generation
 USE_LOCAL_AST = True
@@ -98,6 +100,7 @@ def generate_dockerfile():
         "add a command to check for the `dot` executable: `which dot || (echo \"ERROR: 'dot' executable not found after installation!\" && exit 1)`. "
         "Ensure these commands are chained with `&&`. "
         "Then, copy all other application files. "
+        "And the EXPOSE should be 5000"
         "The application's main entry point is `main.py` and it should be run with `CMD [\"python\", \"main.py\"]`. "
         "Output ONLY the raw Dockerfile content, without any markdown code blocks or explanations. "
         "Ensure the Dockerfile is clean and only includes necessary steps for these requirements."
@@ -168,5 +171,15 @@ def main():
     else:
         logger.info("Running LLM-based graph generator (disabled for this AST setup).")
 
-if __name__ == "__main__":
+app = Flask(__name__)
+@app.route('/image')
+def serve_image():
+    image_path = 'ast_graph.png'
+    if os.path.exists(image_path):
+        return send_file(image_path, mimetype='image/png')
+    else:
+        return "Image not found", 404
+if __name__ == '__main__':
     main()
+    app.run(host='0.0.0.0', port=5000, debug=True)
+    

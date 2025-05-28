@@ -1,4 +1,3 @@
 python-dotenv
 graphviz
 mistralai
-flask

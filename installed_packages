@@ -3,6 +3,5 @@ pip install graphviz mistralai
 pip install dotenv
 
 //Dockerization: 
-docker build -t ast-graph-generator .
-docker rm my-ast-graph
-docker run --name my-ast-graph ast-graph-generator
+docker build -t ast-graph-webserver .
+docker run -p 8080:8000 --name ast_viewer_container ast-graph-webserver
